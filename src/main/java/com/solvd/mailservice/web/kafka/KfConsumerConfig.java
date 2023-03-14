@@ -2,6 +2,8 @@ package com.solvd.mailservice.web.kafka;
 
 import com.jcabi.xml.XML;
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.kafka.receiver.KafkaReceiver;
@@ -15,17 +17,15 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class KfConsumerConfig {
 
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String servers;
+
     private final XML settings;
 
     @Bean
     public ReceiverOptions<String, Object> receiverOptions() {
         Map<String, Object> props = new HashMap<>();
-        props.put(
-                "bootstrap.servers",
-                new TextXpath(
-                        this.settings, "//bootstrapServers"
-                ).toString()
-        );
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
         props.put(
                 "group.id",
                 new TextXpath(
