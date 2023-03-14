@@ -37,7 +37,8 @@ This service by default use the following variables from .env file:
 
 1. 8082 - port for the service itself
 2. 8761 - port for the Eureka server
-2. `SPRING_MAIL_HOST` - host of the mail server
-3. `SPRING_MAIL_PORT` - port of the mail server
-4. `SPRING_MAIL_USERNAME` - username of mail sender
-5. `SPRING_MAIL_PASSWORD` - password of mail sender
+3. `SPRING_MAIL_HOST` - host of the mail server
+4. `SPRING_MAIL_PORT` - port of the mail server
+5. `SPRING_MAIL_USERNAME` - username of mail sender
+6. `SPRING_MAIL_PASSWORD` - password of mail sender
+7. `KAFKA_HOST` - host with port for Kafka bootstrap server
