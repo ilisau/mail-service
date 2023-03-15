@@ -1,12 +1,16 @@
-package com.solvd.mailservice;
+package com.solvd.mailservice.web;
 
+import com.jcabi.xml.XML;
+import com.jcabi.xml.XMLDocument;
 import com.solvd.mailservice.service.property.MailProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import java.io.File;
 import java.util.Properties;
 
 @Configuration
@@ -31,6 +35,12 @@ public class WebConfig {
         props.put("mail.debug", mailProperties.getProperties().getProperty("mail.debug"));
 
         return mailSender;
+    }
+
+    @SneakyThrows
+    @Bean
+    public XML producerXml() {
+        return new XMLDocument(new File("src/main/resources/kafka/consumer.xml"));
     }
 
 }

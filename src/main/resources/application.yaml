@@ -20,6 +20,8 @@ spring:
           auth: true
           starttls:
             enable: true
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST}
 
 mail:
   links:
