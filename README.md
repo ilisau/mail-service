@@ -42,3 +42,5 @@ This service by default use the following variables from .env file:
 5. `SPRING_MAIL_USERNAME` - username of mail sender
 6. `SPRING_MAIL_PASSWORD` - password of mail sender
 7. `KAFKA_HOST` - host with port for Kafka bootstrap server
+8. `ACTIVATION_LINK` - URL to be opened from email to activate account
+9. `RESTORE_LINK' - URL to be opened from email to restore password
