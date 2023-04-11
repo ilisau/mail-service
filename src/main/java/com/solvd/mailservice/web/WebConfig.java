@@ -39,7 +39,7 @@ public class WebConfig {
 
     @SneakyThrows
     @Bean
-    public XML producerXml() {
+    public XML consumerXml() {
         return new XMLDocument(new File("src/main/resources/kafka/consumer.xml"));
     }
 
