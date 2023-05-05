@@ -8,8 +8,13 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @ConfigurationPropertiesScan
 public class MailServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MailServiceApplication.class, args);
-	}
+    /**
+     * Main method.
+     *
+     * @param args arguments
+     */
+    public static void main(final String[] args) {
+        SpringApplication.run(MailServiceApplication.class, args);
+    }
 
 }

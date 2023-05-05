@@ -25,7 +25,7 @@ public class ActivationMail implements Mail {
 
     @Override
     @SneakyThrows
-    public Mono<Void> send(Map<String, Object> params) {
+    public Mono<Void> send(final Map<String, Object> params) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
         helper.setSubject("Welcome to QaproTours");
@@ -37,12 +37,14 @@ public class ActivationMail implements Mail {
     }
 
     @SneakyThrows
-    private String getActivationEmailContent(Map<String, Object> params) {
+    private String getActivationEmailContent(final Map<String, Object> params) {
         StringWriter stringWriter = new StringWriter();
 
         Map<String, Object> model = new HashMap<>();
-        model.put("name", params.get("user.name") + " " + params.get("user.surname"));
-        model.put("link", mailLinkProperties.getActivation() + params.get("token"));
+        model.put("name", params.get("user.name") + " "
+                + params.get("user.surname"));
+        model.put("link", mailLinkProperties.getActivation()
+                + params.get("token"));
         configuration.getTemplate("activation.ftlh")
                 .process(model, stringWriter);
         return stringWriter.getBuffer()

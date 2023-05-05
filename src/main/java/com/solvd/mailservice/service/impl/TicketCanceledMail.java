@@ -23,7 +23,7 @@ public class TicketCanceledMail implements Mail {
 
     @Override
     @SneakyThrows
-    public Mono<Void> send(Map<String, Object> params) {
+    public Mono<Void> send(final Map<String, Object> params) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
         helper.setSubject("Ticket canceled");
@@ -35,14 +35,16 @@ public class TicketCanceledMail implements Mail {
     }
 
     @SneakyThrows
-    private String getTicketCanceledMail(Map<String, Object> params) {
+    private String getTicketCanceledMail(final Map<String, Object> params) {
         StringWriter stringWriter = new StringWriter();
         Map<String, Object> model = new HashMap<>();
-        model.put("name", params.get("user.name") + " " + params.get("user.surname"));
+        model.put("name", params.get("user.name") + " "
+                + params.get("user.surname"));
         model.put("ticket.tour.name", params.get("ticket.tour.name"));
         model.put("ticket.tour.country", params.get("ticket.tour.country"));
         model.put("ticket.tour.city", params.get("ticket.tour.city"));
-        model.put("ticket.tour.arrivalTime", params.get("ticket.tour.arrivalTime"));
+        model.put("ticket.tour.arrivalTime",
+                params.get("ticket.tour.arrivalTime"));
         configuration.getTemplate("canceled.ftlh")
                 .process(model, stringWriter);
         return stringWriter.getBuffer()

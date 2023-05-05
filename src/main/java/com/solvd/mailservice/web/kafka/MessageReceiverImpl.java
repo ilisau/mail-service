@@ -21,6 +21,9 @@ public class MessageReceiverImpl implements MessageReceiver {
     private final Mail ticketCanceledMail;
     private final MailDataMapper mailDataMapper;
 
+    /**
+     * Initialize receiver.
+     */
     @PostConstruct
     public void init() {
         fetch();
@@ -32,13 +35,21 @@ public class MessageReceiverImpl implements MessageReceiver {
                 .subscribe(r -> {
                     //TODO make this more elegant
                     String json = (String) r.value();
-                    MailDataDto mailDataDto = new Gson().fromJson(json, MailDataDto.class);
+                    MailDataDto mailDataDto =
+                            new Gson().fromJson(json, MailDataDto.class);
                     MailData mailData = mailDataMapper.toEntity(mailDataDto);
                     switch (mailData.getMailType()) {
-                        case ACTIVATION -> activationMail.send(mailData.getParams()).subscribe();
-                        case PASSWORD_RESET -> resetMail.send(mailData.getParams()).subscribe();
-                        case BOOKED_TOUR -> bookedTourMail.send(mailData.getParams()).subscribe();
-                        case TICKET_CANCELED -> ticketCanceledMail.send(mailData.getParams()).subscribe();
+                        case ACTIVATION -> activationMail
+                                .send(mailData.getParams()).subscribe();
+                        case PASSWORD_RESET -> resetMail
+                                .send(mailData.getParams()).subscribe();
+                        case BOOKED_TOUR -> bookedTourMail
+                                .send(mailData.getParams()).subscribe();
+                        case TICKET_CANCELED -> ticketCanceledMail
+                                .send(mailData.getParams()).subscribe();
+                        default -> throw new IllegalArgumentException(
+                                "Unknown mail type"
+                        );
                     }
                     r.receiverOffset().acknowledge();
                 });

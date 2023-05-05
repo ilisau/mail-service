@@ -19,28 +19,45 @@ public class WebConfig {
 
     private final MailProperties mailProperties;
 
+    /**
+     * Creates java mail sender.
+     *
+     * @return java mail sender
+     */
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(mailProperties.getHost());
         mailSender.setPort(mailProperties.getPort());
-
         mailSender.setUsername(mailProperties.getUsername());
         mailSender.setPassword(mailProperties.getPassword());
-
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", mailProperties.getProperties().getProperty("mail.transport.protocol"));
-        props.put("mail.smtp.auth", mailProperties.getProperties().getProperty("mail.smtp.auth"));
-        props.put("mail.smtp.starttls.enable", mailProperties.getProperties().getProperty("mail.smtp.starttls.enable"));
-        props.put("mail.debug", mailProperties.getProperties().getProperty("mail.debug"));
-
+        props.put("mail.transport.protocol",
+                mailProperties.getProperties()
+                        .getProperty("mail.transport.protocol"));
+        props.put("mail.smtp.auth",
+                mailProperties.getProperties()
+                        .getProperty("mail.smtp.auth"));
+        props.put("mail.smtp.starttls.enable",
+                mailProperties.getProperties()
+                        .getProperty("mail.smtp.starttls.enable"));
+        props.put("mail.debug",
+                mailProperties.getProperties()
+                        .getProperty("mail.debug"));
         return mailSender;
     }
 
+    /**
+     * Creates consumer xml.
+     *
+     * @return consumer xml
+     */
     @SneakyThrows
     @Bean
     public XML consumerXml() {
-        return new XMLDocument(new File("src/main/resources/kafka/consumer.xml"));
+        return new XMLDocument(
+                new File("src/main/resources/kafka/consumer.xml")
+        );
     }
 
 }

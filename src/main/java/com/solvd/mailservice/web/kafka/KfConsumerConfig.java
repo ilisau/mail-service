@@ -22,6 +22,11 @@ public class KfConsumerConfig {
 
     private final XML settings;
 
+    /**
+     * Creates receiver options.
+     *
+     * @return receiver options
+     */
     @Bean
     public ReceiverOptions<String, Object> receiverOptions() {
         Map<String, Object> props = new HashMap<>();
@@ -50,14 +55,27 @@ public class KfConsumerConfig {
                         this.settings, "//trustedPackages"
                 ).toString()
         );
-        ReceiverOptions<String, Object> receiverOptions = ReceiverOptions.create(props);
+        ReceiverOptions<String, Object> receiverOptions = ReceiverOptions
+                .create(props);
         return receiverOptions.subscription(Collections.singleton("mail"))
-                .addAssignListener(partitions -> System.out.println("onPartitionAssigned: " + partitions))
-                .addRevokeListener(partitions -> System.out.println("onPartitionRevoked: " + partitions));
+                .addAssignListener(partitions ->
+                        System.out.println("onPartitionAssigned: "
+                                + partitions))
+                .addRevokeListener(partitions ->
+                        System.out.println("onPartitionRevoked: "
+                                + partitions));
     }
 
+    /**
+     * Creates receiver.
+     *
+     * @param receiverOptions receiver options
+     * @return receiver
+     */
     @Bean
-    public KafkaReceiver<String, Object> receiver(ReceiverOptions<String, Object> receiverOptions) {
+    public KafkaReceiver<String, Object> receiver(
+            final ReceiverOptions<String, Object> receiverOptions
+    ) {
         return KafkaReceiver.create(receiverOptions);
     }
 

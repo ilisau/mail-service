@@ -24,16 +24,26 @@ public class MailController {
     private final Mail ticketCanceledMail;
     private final MailDataMapper mailDataMapper;
 
+    /**
+     * Sends email.
+     *
+     * @param mailDataDto dto
+     * @return empty response
+     */
     @PostMapping
-    public Mono<Void> send(@Validated(OnCreate.class) @RequestBody MailDataDto mailDataDto) {
+    public Mono<Void> send(
+            @Validated(OnCreate.class)
+            @RequestBody final MailDataDto mailDataDto
+    ) {
         //TODO make this more elegant
-
         MailData mailData = mailDataMapper.toEntity(mailDataDto);
         return switch (mailData.getMailType()) {
             case ACTIVATION -> activationMail.send(mailData.getParams());
             case PASSWORD_RESET -> resetMail.send(mailData.getParams());
             case BOOKED_TOUR -> bookedTourMail.send(mailData.getParams());
-            case TICKET_CANCELED -> ticketCanceledMail.send(mailData.getParams());
+            case TICKET_CANCELED -> ticketCanceledMail.send(
+                    mailData.getParams()
+            );
         };
     }
 

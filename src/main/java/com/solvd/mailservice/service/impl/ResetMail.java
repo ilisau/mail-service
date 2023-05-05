@@ -25,7 +25,7 @@ public class ResetMail implements Mail {
 
     @Override
     @SneakyThrows
-    public Mono<Void> send(Map<String, Object> params) {
+    public Mono<Void> send(final Map<String, Object> params) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
         helper.setSubject("Restore password");
@@ -37,11 +37,13 @@ public class ResetMail implements Mail {
     }
 
     @SneakyThrows
-    private String getRestoreEmailContent(Map<String, Object> params) {
+    private String getRestoreEmailContent(final Map<String, Object> params) {
         StringWriter stringWriter = new StringWriter();
         Map<String, Object> model = new HashMap<>();
-        model.put("name", params.get("user.name") + " " + params.get("user.surname"));
-        model.put("link", mailLinkProperties.getRestore() + params.get("token"));
+        model.put("name", params.get("user.name") + " "
+                + params.get("user.surname"));
+        model.put("link", mailLinkProperties.getRestore()
+                + params.get("token"));
         configuration.getTemplate("restore.ftlh")
                 .process(model, stringWriter);
         return stringWriter.getBuffer()

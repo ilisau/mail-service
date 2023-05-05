@@ -10,15 +10,27 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
-    @ExceptionHandler
+    /**
+     * Handles mail exception.
+     *
+     * @param e exception
+     * @return exception message
+     */
+    @ExceptionHandler(MailException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionMessage handleMailException(MailException e) {
+    public ExceptionMessage handleMailException(final MailException e) {
         return new ExceptionMessage(e.getMessage());
     }
 
+    /**
+     * Handles exception.
+     *
+     * @param e exception
+     * @return exception message
+     */
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionMessage handleException(Exception e) {
+    public ExceptionMessage handleException(final Exception e) {
         return new ExceptionMessage("Internal error");
     }
 
